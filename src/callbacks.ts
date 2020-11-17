@@ -3,10 +3,10 @@ import { MessageWebviewOnDidReceiveMessage } from './interfaces';
 import { SomaPanel } from './panels';
 
 const dialogOptions: vscode.OpenDialogOptions = {
+    filters: { "Pdf": ["pdf"] },
     title: "Soma - View PDF",
     canSelectFolders: false,
     canSelectMany: false,
-    filters: { "Pdf": ["pdf"] },
 }
 
 export const someshaCallback = (context: vscode.ExtensionContext): void => {
@@ -16,8 +16,14 @@ export const someshaCallback = (context: vscode.ExtensionContext): void => {
             return;
         }
 
-        vscode.window.showErrorMessage("Please select a pdf file")
-        someshaCallback(context);
+        vscode.window.showErrorMessage("Please select a pdf file", "Cancel", "Open File Dialog")
+            .then(selection => {
+                if(selection === "Open File Dialog"){
+                    someshaCallback(context)
+                    return;
+                }
+            })
+        
     })
 }
 
