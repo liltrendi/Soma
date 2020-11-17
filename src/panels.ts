@@ -12,11 +12,13 @@ export class SomaPanel {
     private readonly _localResourcesPath: string = "injectibles";
     private readonly _webviewPanel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
+    private _localFiles: vscode.Uri[] | undefined
     private _disposables: vscode.Disposable[] = [];
 
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri){
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, files: vscode.Uri[] | undefined){
         this._webviewPanel = panel;
         this._extensionUri = extensionUri;
+        this._localFiles = files;
 
         this._loadWebviewHtml()
 
@@ -25,7 +27,7 @@ export class SomaPanel {
         this._webviewPanel.webview.onDidReceiveMessage(webviewOnDidRecieveMessage, null, this._disposables);
     }
 
-    public static createOrReveal(extensionUri: vscode.Uri) {
+    public static createOrReveal(extensionUri: vscode.Uri, files: vscode.Uri[] | undefined) {
 
         const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 
@@ -45,7 +47,7 @@ export class SomaPanel {
             }
         )
 
-        SomaPanel.currentPanel = new SomaPanel(panel, extensionUri)
+        SomaPanel.currentPanel = new SomaPanel(panel, extensionUri, files)
     }
 
     public getHtml(webview: vscode.Webview){
@@ -61,6 +63,8 @@ export class SomaPanel {
             mainScriptUri,
             mainStylesUri
         }
+
+        console.log("Files", this._localFiles)
 
         return getHtmlDocument(scripts)
 
