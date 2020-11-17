@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { sayHelloCallback } from './callbacks';
+import { someshaCallback } from './callbacks';
 import { exclusiveCommands } from './commands';
 
 // this method is called when your extension is activated
@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "soma" is now active!');
+	console.log('Extension active');
 
 	for(let key of Object.keys(exclusiveCommands)){
 		
@@ -18,8 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
 		let command: string = exclusiveCommands[key];
 		
 		switch(command){
-			case "soma.sayHello":
-				callback = sayHelloCallback;
+			case "soma.somesha":
+				callback = () => someshaCallback(context);
 				break;
 		}
 

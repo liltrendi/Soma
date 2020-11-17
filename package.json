@@ -11,14 +11,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:soma.sayHello"
+		"onCommand:soma.somesha"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "soma.sayHello",
-				"title": "Say Hello"
+				"command": "soma.somesha",
+				"title": "Somesha"
 			}
 		]
 	},
