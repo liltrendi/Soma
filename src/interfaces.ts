@@ -1,9 +1,13 @@
 import * as vscode from 'vscode';
 
-export interface Scripts {
+export interface HtmlUris {
     webview: vscode.Webview;
     mainScriptUri: vscode.Uri;
     mainStylesUri: vscode.Uri;
+    pdfJsScriptUri: vscode.Uri;
+    pdfJsWorkerScriptUri: vscode.Uri;
+    viewerScriptUri: vscode.Uri;
+    pdfFileUri: vscode.Uri;
 }
 
 export interface MessageWebviewOnDidReceiveMessage {

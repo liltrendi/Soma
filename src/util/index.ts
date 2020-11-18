@@ -1,4 +1,5 @@
-import { Scripts } from "../interfaces";
+import * as vscode from 'vscode';
+import { HtmlUris } from "../interfaces";
 
 export const getNonce = (): string => {
 	let text = '';
@@ -9,9 +10,9 @@ export const getNonce = (): string => {
 	return text;
 }
 
-export const getHtmlDocument = (config: Scripts): string => {
+export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris): string => {
     
-    let {webview, mainScriptUri, mainStylesUri} = config;
+    let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri, pdfFileUri} = config;
     let nonce: string = getNonce()
 
     return `
@@ -25,13 +26,32 @@ export const getHtmlDocument = (config: Scripts): string => {
                 -->
                 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta name="extensionPdfUri" content="${pdfFileUri}">
                 <link href="${mainStylesUri}" rel="stylesheet">
                 <title>Soma</title>
             </head>
             <body>
-                <h1 id="lines-of-code-counter">
-                    Soma Webview
-                </h1>
+
+                <button id="show-pdf-button">Show PDF</button> 
+
+                <div id="pdf-main-container">
+                    <div id="pdf-loader">Loading document ...</div>
+                    <div id="pdf-contents">
+                        <div id="pdf-meta">
+                            <div id="pdf-buttons">
+                                <button id="pdf-prev">Previous</button>
+                                <button id="pdf-next">Next</button>
+                            </div>
+                            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+                        </div>
+                        <canvas id="pdf-canvas" width="400"></canvas>
+                        <div id="page-loader">Loading page ...</div>
+                    </div>
+                </div>
+
+                <script nonce="${nonce}" src="${pdfJsScriptUri}"></script>
+                <script nonce="${nonce}" src="${pdfJsWorkerScriptUri}"></script>
+                <script nonce="${nonce}" src="${viewerScriptUri}"></script>
                 <script nonce="${nonce}" src="${mainScriptUri}"></script>
             </body>
         </html>
