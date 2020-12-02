@@ -263,7 +263,7 @@ function webViewerLoad() {
   try {
     parent.document.dispatchEvent(event);
   } catch (ex) {
-    console.error("webviewerloaded: ".concat(ex));
+    // console.error("webviewerloaded: ".concat(ex));
     document.dispatchEvent(event);
   }
 
@@ -15384,7 +15384,7 @@ document.webL10n = function (window, document, undefined) {
 
         callback();
       } else {
-        console.log('no resource to load, early way out');
+        // console.log('no resource to load, early way out');
       }
 
       gReadyState = 'complete';

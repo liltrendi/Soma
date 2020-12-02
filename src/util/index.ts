@@ -10,7 +10,7 @@ export const getNonce = (): string => {
 	return text;
 }
 
-export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris): string => {
+export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAsBase64: string): string => {
     
     let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri, pdfFileUri} = config;
     let nonce: string = getNonce()
@@ -24,31 +24,34 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris): stri
                     Use a content security policy to only allow loading images from https or from our extension directory,
                     and only allow scripts that have a specific nonce.
                 -->
-                <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
+                <!--
+                    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
+                -->
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta name="extensionPdfUri" content="${pdfFileUri}">
+                <meta name="pdfAsBase64" content="${pdfAsBase64}">
                 <link href="${mainStylesUri}" rel="stylesheet">
                 <title>Soma</title>
             </head>
             <body>
 
-                <button id="show-pdf-button">Show PDF</button> 
+                <button id="showPdfBtn">Show PDF</button> 
 
-                <div id="pdf-main-container">
-                    <div id="pdf-loader">Loading document ...</div>
-                    <div id="pdf-contents">
-                        <div id="pdf-meta">
-                            <div id="pdf-buttons">
-                                <button id="pdf-prev">Previous</button>
-                                <button id="pdf-next">Next</button>
+                <div id="pdfMainContainer">
+                    <div id="pdfLoader">Loading document ...</div>
+                    <div id="pdfContents">
+                        <div id="pdfMeta">
+                            <div id="pdfBtns">
+                                <button id="previousBtn">Previous</button>
+                                <button id="nextBtn">Next</button>
                             </div>
-                            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+                            <div id="pageCountDiv">Page <div id="pdfCurrentPage"></div>
+                            <!-- of <div id="pdfTotalPages"> -->
+                            </div></div>
                         </div>
-                        <canvas id="pdf-canvas" width="400"></canvas>
-                        <div id="page-loader">Loading page ...</div>
+                        <canvas id="pdfCanvas" width="400"></canvas>
+                        <div id="loaderDiv">Loading page ...</div>
                     </div>
                 </div>
-
                 <script nonce="${nonce}" src="${pdfJsScriptUri}"></script>
                 <script nonce="${nonce}" src="${pdfJsWorkerScriptUri}"></script>
                 <script nonce="${nonce}" src="${viewerScriptUri}"></script>

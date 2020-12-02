@@ -12,7 +12,7 @@ const dialogOptions: vscode.OpenDialogOptions = {
 export const someshaCallback = (context: vscode.ExtensionContext): void => {
     vscode.window.showOpenDialog(dialogOptions).then((result) => {
         if(result){
-            SomaPanel.createOrReveal(context.extensionUri, result)
+            SomaPanel.createOrReveal(context, result)
             return;
         }
 

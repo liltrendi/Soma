@@ -2067,7 +2067,7 @@ function info(msg) {
 
 function warn(msg) {
   if (verbosity >= VerbosityLevel.WARNINGS) {
-    console.log("Warning: ".concat(msg));
+    // console.log("Warning: ".concat(msg));
   }
 }
 

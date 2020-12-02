@@ -1,13 +1,16 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { webviewOnDidRecieveMessage } from './callbacks';
 import { HtmlUris } from './interfaces';
 import { getHtmlDocument } from './util';
+const fs = require('fs');
 
 export class SomaPanel {
     
     public static readonly viewType: string = "Soma";
     public static readonly panelTitle: string = "Soma";
     public static currentPanel: SomaPanel | undefined;
+    public panelContext: vscode.ExtensionContext;
 
     private readonly _localResourcesPath: string = "injectibles";
     private readonly _webviewPanel: vscode.WebviewPanel;
@@ -15,9 +18,10 @@ export class SomaPanel {
     private _localFiles: vscode.Uri[] | undefined
     private _disposables: vscode.Disposable[] = [];
 
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, files: vscode.Uri[] | undefined){
+    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, files: vscode.Uri[] | undefined){
         this._webviewPanel = panel;
-        this._extensionUri = extensionUri;
+        this.panelContext = context;
+        this._extensionUri = context.extensionUri;
         this._localFiles = files;
 
         this._loadWebviewHtml()
@@ -27,7 +31,7 @@ export class SomaPanel {
         this._webviewPanel.webview.onDidReceiveMessage(webviewOnDidRecieveMessage, null, this._disposables);
     }
 
-    public static createOrReveal(extensionUri: vscode.Uri, files: vscode.Uri[] | undefined) {
+    public static createOrReveal(context: vscode.ExtensionContext, files: vscode.Uri[] | undefined) {
 
         const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 
@@ -43,14 +47,14 @@ export class SomaPanel {
             {
                 enableScripts: true,
                 retainContextWhenHidden: true,
-                localResourceRoots: [vscode.Uri.joinPath(extensionUri, "injectibles")]
+                localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "injectibles")]
             }
         )
 
-        SomaPanel.currentPanel = new SomaPanel(panel, extensionUri, files)
+        SomaPanel.currentPanel = new SomaPanel(panel, context, files)
     }
 
-    public getHtml(webview: vscode.Webview){
+    public getPreparedHtml(webview: vscode.Webview){
 
         const mainScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "main.js");
         const mainScriptUri = webview.asWebviewUri(mainScriptPath);
@@ -68,7 +72,8 @@ export class SomaPanel {
         const mainStylesUri = webview.asWebviewUri(mainStylesPath);
 
         const pdfFilePath = this._localFiles ? this._localFiles[0].path : "";
-        const pdfFileUri = webview.asWebviewUri(vscode.Uri.file(pdfFilePath));
+        const pdfFileUri = webview.asWebviewUri(vscode.Uri.file(path.join(pdfFilePath)));
+        const pdfAsBase64: string = fs.readFileSync(vscode.Uri.file(path.join(pdfFilePath)).path, {encoding: 'base64'});
 
         const uris: HtmlUris = {
             webview,
@@ -77,16 +82,16 @@ export class SomaPanel {
             pdfJsScriptUri,
             pdfJsWorkerScriptUri,
             viewerScriptUri,
-            pdfFileUri
+            pdfFileUri,
         }
 
-        return getHtmlDocument(webview, uris)
+        return getHtmlDocument(webview, uris, pdfAsBase64)
 
     }
 
     private _loadWebviewHtml(){
         const webview = this._webviewPanel.webview;
-        this._webviewPanel.webview.html = this.getHtml(webview)
+        this._webviewPanel.webview.html = this.getPreparedHtml(webview)
     }
 
     public dispose() {
