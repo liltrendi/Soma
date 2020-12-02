@@ -7,7 +7,6 @@ export interface HtmlUris {
     pdfJsScriptUri: vscode.Uri;
     pdfJsWorkerScriptUri: vscode.Uri;
     viewerScriptUri: vscode.Uri;
-    pdfFileUri: vscode.Uri;
 }
 
 export interface MessageWebviewOnDidReceiveMessage {

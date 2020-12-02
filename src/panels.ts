@@ -72,7 +72,6 @@ export class SomaPanel {
         const mainStylesUri = webview.asWebviewUri(mainStylesPath);
 
         const pdfFilePath = this._localFiles ? this._localFiles[0].path : "";
-        const pdfFileUri = webview.asWebviewUri(vscode.Uri.file(path.join(pdfFilePath)));
         const pdfAsBase64: string = fs.readFileSync(vscode.Uri.file(path.join(pdfFilePath)).path, {encoding: 'base64'});
 
         const uris: HtmlUris = {
@@ -82,7 +81,6 @@ export class SomaPanel {
             pdfJsScriptUri,
             pdfJsWorkerScriptUri,
             viewerScriptUri,
-            pdfFileUri,
         }
 
         return getHtmlDocument(webview, uris, pdfAsBase64)

@@ -12,7 +12,7 @@ export const getNonce = (): string => {
 
 export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAsBase64: string): string => {
     
-    let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri, pdfFileUri} = config;
+    let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri} = config;
     let nonce: string = getNonce()
 
     return `
