@@ -71,6 +71,9 @@ export class SomaPanel {
         const mainStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "main.css");
         const mainStylesUri = webview.asWebviewUri(mainStylesPath);
 
+        const bootstrapStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "bootstrap.min.css");
+        const bootstrapStylesUri = webview.asWebviewUri(bootstrapStylesPath);
+
         const pdfFilePath = this._localFiles ? this._localFiles[0].path : "";
         const pdfAsBase64: string = fs.readFileSync(vscode.Uri.file(path.join(pdfFilePath)).path, {encoding: 'base64'});
 
@@ -81,6 +84,7 @@ export class SomaPanel {
             pdfJsScriptUri,
             pdfJsWorkerScriptUri,
             viewerScriptUri,
+            bootstrapStylesUri
         };
 
         return getHtmlDocument(webview, uris, pdfAsBase64);

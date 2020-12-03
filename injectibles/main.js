@@ -20,7 +20,6 @@
     }
 
     function afterRenderCallback(pagesConfig){
-        console.log("pagesConfig", pagesConfig)
         document.querySelector("#pdfCurrentPage").innerHTML = pagesConfig.currentPage;
         document.querySelector("#pdfLoader").style.display = "none";
         document.querySelector("#pdfContents").style.display = "block";
@@ -45,8 +44,8 @@
         const pdfFromBase64 = atob(document.getElementsByName('pdfAsBase64')[0].content);
 
         const CANVAS = document.querySelector("#pdfCanvas");
-        const PAGE_SCALE = 1.5;
         const INITIAL_PAGE = 1;
+        let PAGE_SCALE = 1.5;
         let CURRENT_PAGE, TOTAL_PAGES;
 
         async function showPDF(pdfUri, pageNo) {
@@ -78,11 +77,28 @@
             if(CURRENT_PAGE != 1) showPDF(pdfFromBase64, --CURRENT_PAGE);
         }
 
+        function zoomIn(){
+            PAGE_SCALE = PAGE_SCALE + 0.25;
+            showPDF(pdfFromBase64)
+        }
+
+        function zoomOut(){
+            if (PAGE_SCALE <= 0.25) {
+                return;
+            }
+            PAGE_SCALE = PAGE_SCALE - 0.25;
+            showPDF(pdfFromBase64)
+        }
+
         showPDF(pdfFromBase64)
 
         document.querySelector("#previousBtn").addEventListener("click", returnToPreviousPage);
 
         document.querySelector("#nextBtn").addEventListener("click", goToNextPage);
+
+        document.querySelector("#zoomInBtn").addEventListener("click", zoomIn);
+
+        document.querySelector("#zoomOutBtn").addEventListener("click", zoomOut)
 
         document.onkeydown = function(e){
             e = e || window.event;

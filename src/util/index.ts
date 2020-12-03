@@ -12,7 +12,7 @@ export const getNonce = (): string => {
 
 export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAsBase64: string): string => {
     
-    let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri} = config;
+    let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri, bootstrapStylesUri} = config;
     let nonce: string = getNonce();
 
     return `
@@ -29,6 +29,7 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                 -->
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta name="pdfAsBase64" content="${pdfAsBase64}">
+                <link href="${bootstrapStylesUri}" rel="stylesheet">
                 <link href="${mainStylesUri}" rel="stylesheet">
                 <title>Soma</title>
             </head>
@@ -39,15 +40,19 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                     <div id="pdfContents">
                         <div id="pdfMeta">
                             <div id="pdfBtns">
-                                <button id="previousBtn">Previous</button>
-                                <button id="nextBtn">Next</button>
+                                <button class="btn btn-sm btn-primary mr-1" id="previousBtn">Prev</button>
+                                <button class="btn btn-sm btn-primary" id="nextBtn">Next</button>
                             </div>
-                            <div id="pageCountDiv">
+                            <div id="pdfZoomBtns">
+                                <button class="btn btn-sm btn-primary mr-1" id="zoomInBtn">+</button>
+                                <button class="btn btn-sm btn-primary" id="zoomOutBtn">-</button>
+                            </div>
+                            <div id="pageCountDiv" class="text-primary text-small">
                                 Page <div id="pdfCurrentPage"></div>
                                 <div id="pdfTotalPages">
                             </div></div>
                         </div>
-                        <canvas id="pdfCanvas" width="400"></canvas>
+                        <canvas id="pdfCanvas"></canvas>
                     </div>
                 </div>
                 <script nonce="${nonce}" src="${pdfJsScriptUri}"></script>
