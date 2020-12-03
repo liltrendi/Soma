@@ -2,6 +2,8 @@
 
 (function(){
 
+    var PDF_TO_LOAD = null;
+
     function getCanvasContext(page, canvas, pageScale){
         let viewport = page.getViewport({scale: pageScale});
         let context = canvas.getContext("2d");
@@ -46,9 +48,9 @@
         async function showPDF(pdfUri, pageNo) {
             document.querySelector("#pdfLoader").style.display = "block";
 
-            const loadingTask = pdfjsLib.getDocument({data: pdfUri})
+            PDF_TO_LOAD = pdfjsLib.getDocument({data: pdfUri})
 
-            loadingTask.promise
+            PDF_TO_LOAD.promise
                 .then(async function(pdf) {
                     let pageNumber = pageNo || INITIAL_PAGE;
                     CURRENT_PAGE = pageNumber;
@@ -62,19 +64,43 @@
                 }
             );
         }
-        
-        document.querySelector("#showPdfBtn").addEventListener("click", function() {
-            this.style.display = "none";
-            showPDF(pdfFromBase64);
-        });
 
-        document.querySelector("#previousBtn").addEventListener("click", function() {
-            if(CURRENT_PAGE != 1) showPDF(pdfFromBase64, --CURRENT_PAGE);
-        });
-
-        document.querySelector("#nextBtn").addEventListener("click", function() {
+        function goToNextPage(){
             if(CURRENT_PAGE != TOTAL_PAGES) showPDF(pdfFromBase64, ++CURRENT_PAGE);
-        });
+        }
+
+        function returnToPreviousPage(){
+            if(CURRENT_PAGE != 1) showPDF(pdfFromBase64, --CURRENT_PAGE);
+        }
+
+        showPDF(pdfFromBase64)
+
+        document.querySelector("#previousBtn").addEventListener("click", returnToPreviousPage);
+
+        document.querySelector("#nextBtn").addEventListener("click", goToNextPage);
+
+        document.onkeydown = function(e){
+            e = e || window.event;
+            
+            switch(e.keyCode){
+                case 37:
+                    if(PDF_TO_LOAD !== null){
+                        returnToPreviousPage()
+                    }
+                    return;
+                case 39:
+                    if(PDF_TO_LOAD !== null){
+                        goToNextPage()
+                    }
+                    return;
+                case 38:
+                    return;
+                case 40:
+                    return;
+                default:
+                    return;
+            }
+        }
 
     })
 })()

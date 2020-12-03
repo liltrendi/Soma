@@ -15,7 +15,7 @@ export class SomaPanel {
     private readonly _localResourcesPath: string = "injectibles";
     private readonly _webviewPanel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
-    private _localFiles: vscode.Uri[] | undefined
+    private _localFiles: vscode.Uri[] | undefined;
     private _disposables: vscode.Disposable[] = [];
 
     private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, files: vscode.Uri[] | undefined){
@@ -24,7 +24,7 @@ export class SomaPanel {
         this._extensionUri = context.extensionUri;
         this._localFiles = files;
 
-        this._loadWebviewHtml()
+        this._loadWebviewHtml();
 
         this._webviewPanel.onDidDispose(this.dispose, null, this._disposables);
 
@@ -33,7 +33,7 @@ export class SomaPanel {
 
     public static createOrReveal(context: vscode.ExtensionContext, files: vscode.Uri[] | undefined) {
 
-        const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
+        const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
         if(SomaPanel.currentPanel){
             SomaPanel.currentPanel._webviewPanel.reveal(column);
@@ -49,9 +49,9 @@ export class SomaPanel {
                 retainContextWhenHidden: true,
                 localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "injectibles")]
             }
-        )
+        );
 
-        SomaPanel.currentPanel = new SomaPanel(panel, context, files)
+        SomaPanel.currentPanel = new SomaPanel(panel, context, files);
     }
 
     public getPreparedHtml(webview: vscode.Webview){
@@ -81,15 +81,15 @@ export class SomaPanel {
             pdfJsScriptUri,
             pdfJsWorkerScriptUri,
             viewerScriptUri,
-        }
+        };
 
-        return getHtmlDocument(webview, uris, pdfAsBase64)
+        return getHtmlDocument(webview, uris, pdfAsBase64);
 
     }
 
     private _loadWebviewHtml(){
         const webview = this._webviewPanel.webview;
-        this._webviewPanel.webview.html = this.getPreparedHtml(webview)
+        this._webviewPanel.webview.html = this.getPreparedHtml(webview);
     }
 
     public dispose() {

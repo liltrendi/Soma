@@ -2,24 +2,16 @@ body {
 	float: left;
 }
 
-#showPdfBtn {
-	width: 150px;
-	display: block;
-	margin: 20px auto;
-}
-
 #pdfMainContainer {
-	width: 400px;
+	width: 100%;
 	margin: 20px auto;
 }
 
 #pdfLoader {
-	display: none;
 	text-align: center;
 	color: #999999;
 	font-size: 13px;
-	line-height: 100px;
-	height: 100px;
+	float: left;
 }
 
 #pdfContents {
@@ -45,18 +37,4 @@ body {
 
 #pdfTotalPages {
 	display: inline;
-}
-
-#pdfCanvas {
-	border: 1px solid rgba(0,0,0,0.2);
-	box-sizing: border-box;
-}
-
-#loaderDiv {
-	height: 100px;
-	line-height: 100px;
-	text-align: center;
-	display: none;
-	color: #999999;
-	font-size: 13px;
 }

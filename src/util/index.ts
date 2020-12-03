@@ -8,12 +8,12 @@ export const getNonce = (): string => {
 		text += possibleCharacters.charAt(Math.floor(Math.random() * possibleCharacters.length));
 	}
 	return text;
-}
+};
 
 export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAsBase64: string): string => {
     
     let {mainScriptUri, mainStylesUri, pdfJsScriptUri, pdfJsWorkerScriptUri, viewerScriptUri} = config;
-    let nonce: string = getNonce()
+    let nonce: string = getNonce();
 
     return `
         <!DOCTYPE html>
@@ -33,11 +33,9 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                 <title>Soma</title>
             </head>
             <body>
-
-                <button id="showPdfBtn">Show PDF</button> 
-
+                
                 <div id="pdfMainContainer">
-                    <div id="pdfLoader">Loading document ...</div>
+                    <div id="pdfLoader">Opening PDF, please wait...</div>
                     <div id="pdfContents">
                         <div id="pdfMeta">
                             <div id="pdfBtns">
@@ -49,7 +47,6 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                             </div></div>
                         </div>
                         <canvas id="pdfCanvas" width="400"></canvas>
-                        <div id="loaderDiv">Loading page ...</div>
                     </div>
                 </div>
                 <script nonce="${nonce}" src="${pdfJsScriptUri}"></script>
@@ -60,4 +57,4 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
         </html>
     `;
     
-}
+};
