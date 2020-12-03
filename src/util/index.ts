@@ -42,8 +42,9 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                                 <button id="previousBtn">Previous</button>
                                 <button id="nextBtn">Next</button>
                             </div>
-                            <div id="pageCountDiv">Page <div id="pdfCurrentPage"></div>
-                            <!-- of <div id="pdfTotalPages"> -->
+                            <div id="pageCountDiv">
+                                Page <div id="pdfCurrentPage"></div>
+                                <div id="pdfTotalPages">
                             </div></div>
                         </div>
                         <canvas id="pdfCanvas" width="400"></canvas>

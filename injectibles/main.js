@@ -18,22 +18,26 @@
     
         return renderContext;
     }
+
+    function afterRenderCallback(pagesConfig){
+        console.log("pagesConfig", pagesConfig)
+        document.querySelector("#pdfCurrentPage").innerHTML = pagesConfig.currentPage;
+        document.querySelector("#pdfLoader").style.display = "none";
+        document.querySelector("#pdfContents").style.display = "block";
+        if(pagesConfig.totalPages){
+            document.querySelector("#pdfTotalPages").innerHTML = ` / ${pagesConfig.totalPages}`
+        }
+    }
     
-    async function renderPage(page, context, currentPage){
+    async function renderPage(page, context, pagesConfig){
         const renderTask = page.render(context);
     
         try {
             await renderTask;
-            afterRenderCallback(currentPage)
+            afterRenderCallback(pagesConfig)
         }catch(e){
             throw new Error(e);
         }
-    }
-
-    function afterRenderCallback(currentPage){
-        document.querySelector("#pdfCurrentPage").innerHTML = currentPage;
-        document.querySelector("#pdfLoader").style.display = "none";
-        document.querySelector("#pdfContents").style.display = "block";
     }
 
     document.addEventListener("DOMContentLoaded", function(event){
@@ -50,14 +54,15 @@
 
             PDF_TO_LOAD = pdfjsLib.getDocument({data: pdfUri})
 
-            PDF_TO_LOAD.promise
-                .then(async function(pdf) {
-                    let pageNumber = pageNo || INITIAL_PAGE;
-                    CURRENT_PAGE = pageNumber;
+            PDF_TO_LOAD.promise.then(async function(pdf) {
+                    CURRENT_PAGE = pageNo || INITIAL_PAGE;
+                    TOTAL_PAGES = pdf.numPages;
+
+                    const pagesConfig = {currentPage: CURRENT_PAGE, totalPages: TOTAL_PAGES}
                     
-                    await pdf.getPage(pageNumber).then(async function(page) {
-                        let renderContext = getCanvasContext(page, CANVAS, PAGE_SCALE);
-                        await renderPage(page, renderContext, CURRENT_PAGE);
+                    await pdf.getPage(CURRENT_PAGE).then(async function(page) {
+                        const renderContext = getCanvasContext(page, CANVAS, PAGE_SCALE);
+                        await renderPage(page, renderContext, pagesConfig);
                     });
                 }, function (error) {
                     console.error(error);
