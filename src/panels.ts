@@ -35,10 +35,10 @@ export class SomaPanel {
 
         const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
-        if(SomaPanel.currentPanel){
-            SomaPanel.currentPanel._webviewPanel.reveal(column);
-            return;
-        }
+        // if(SomaPanel.currentPanel){
+        //     SomaPanel.currentPanel._webviewPanel.reveal(column);
+        //     return;
+        // }
 
         const panel = vscode.window.createWebviewPanel(
             SomaPanel.viewType,
