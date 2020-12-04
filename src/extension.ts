@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { someshaCallback } from './callbacks';
-import { exclusiveCommands } from './commands';
+import { someshaCallback } from './util/callbacks';
+import { exclusiveCommands } from './util/commands';
 
 export function activate(context: vscode.ExtensionContext) {
 

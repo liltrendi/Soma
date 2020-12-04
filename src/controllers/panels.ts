@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { webviewOnDidRecieveMessage } from './callbacks';
-import { HtmlUris } from './interfaces';
-import { getHtmlDocument } from './util';
+import { webviewOnDidRecieveMessage } from '../util/callbacks';
+import { HtmlUris } from '../annotations/interfaces';
+import { getHtmlDocument } from '../util';
 const fs = require('fs');
 
 export class SomaPanel {
@@ -56,22 +56,25 @@ export class SomaPanel {
 
     public getPreparedHtml(webview: vscode.Webview){
 
-        const mainScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "main.js");
+        const mainScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "js", "main.js");
         const mainScriptUri = webview.asWebviewUri(mainScriptPath);
 
-        const pdfJsScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "pdf.js");
+        const pdfJsScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "pdfjs", "pdf.js");
         const pdfJsScriptUri = webview.asWebviewUri(pdfJsScriptPath);
 
-        const pdfJsWorkerScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "pdf.worker.js");
+        const pdfJsWorkerScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "pdfjs", "pdf.worker.js");
         const pdfJsWorkerScriptUri = webview.asWebviewUri(pdfJsWorkerScriptPath);
 
-        const viewerScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "viewer.js");
+        const viewerScriptPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "viewer", "viewer.js");
         const viewerScriptUri = webview.asWebviewUri(viewerScriptPath);
 
-        const mainStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "main.css");
+        const viewerStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "viewer", "viewer.css");
+        const viewerStylesUri = webview.asWebviewUri(viewerStylesPath);
+
+        const mainStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "css", "main.css");
         const mainStylesUri = webview.asWebviewUri(mainStylesPath);
 
-        const bootstrapStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "bootstrap.min.css");
+        const bootstrapStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "bootstrap", "bootstrap.min.css");
         const bootstrapStylesUri = webview.asWebviewUri(bootstrapStylesPath);
 
         const pdfFilePath = this._localFiles ? this._localFiles[0].path : "";
@@ -84,7 +87,8 @@ export class SomaPanel {
             pdfJsScriptUri,
             pdfJsWorkerScriptUri,
             viewerScriptUri,
-            bootstrapStylesUri
+            bootstrapStylesUri,
+            viewerStylesUri
         };
 
         return getHtmlDocument(webview, uris, pdfAsBase64);

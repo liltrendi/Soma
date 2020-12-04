@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { MessageWebviewOnDidReceiveMessage } from './interfaces';
-import { SomaPanel } from './panels';
+import { MessageWebviewOnDidReceiveMessage } from '../annotations/interfaces';
+import { SomaPanel } from '../controllers/panels';
 
 const dialogOptions: vscode.OpenDialogOptions = {
     filters: { "pdf": ["pdf"] },
