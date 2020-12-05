@@ -16,6 +16,8 @@ Open VSCode and type `Cmd+P` (or `Ctrl+P` on Windows), then type `ext install br
 
 ## Donate
 
+Your donations go a long way into helping maintain projects! Consider donating via Patreon:
+
 <span class="badge-patreon">
 <a href="https://patreon.com/liltrendi" title="Donate to this project using Patreon"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" /></a>
 </span>
