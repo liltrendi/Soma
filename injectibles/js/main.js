@@ -89,7 +89,7 @@
 
         function zoomIn(){
             PAGE_SCALE = PAGE_SCALE + 0.25;
-            renderPdfDocument(pdfFromBase64)
+            renderPdfDocument(pdfFromBase64, CURRENT_PAGE)
         }
 
         function zoomOut(){
@@ -98,7 +98,7 @@
                 return;
             }
             PAGE_SCALE = PAGE_SCALE - 0.25;
-            renderPdfDocument(pdfFromBase64)
+            renderPdfDocument(pdfFromBase64, CURRENT_PAGE)
         }
 
         renderPdfDocument(pdfFromBase64)
