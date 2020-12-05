@@ -1,24 +1,24 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { webviewOnDidRecieveMessage } from '../util/callbacks';
-import { HtmlUris } from '../annotations/interfaces';
-import { getHtmlDocument } from '../util';
+import { HtmlUris, OpenedPdfFile } from '../annotations/interfaces';
+import { getHtmlDocument, getWebviewPanelTitle } from '../util';
 const fs = require('fs');
 
 export class SomaPanel {
     
     public static readonly viewType: string = "Soma";
-    public static readonly panelTitle: string = "Soma";
+    public static panelTitle: string = "Soma";
     public static currentPanel: SomaPanel | undefined;
     public panelContext: vscode.ExtensionContext;
 
     private readonly _localResourcesPath: string = "injectibles";
     private readonly _webviewPanel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
-    private _localFile: vscode.Uri | undefined;
+    private _localFile: OpenedPdfFile;
     private _disposables: vscode.Disposable[] = [];
 
-    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, file: vscode.Uri | undefined){
+    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, file: OpenedPdfFile){
         this._webviewPanel = panel;
         this.panelContext = context;
         this._extensionUri = context.extensionUri;
@@ -31,9 +31,11 @@ export class SomaPanel {
         this._webviewPanel.webview.onDidReceiveMessage(webviewOnDidRecieveMessage, null, this._disposables);
     }
 
-    public static createOrReveal(context: vscode.ExtensionContext, file: vscode.Uri | undefined) {
+    public static createOrReveal(context: vscode.ExtensionContext, file: OpenedPdfFile) {
 
         const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
+
+        this.panelTitle = getWebviewPanelTitle(file);
 
         // if(SomaPanel.currentPanel){
         //     SomaPanel.currentPanel._webviewPanel.reveal(column);

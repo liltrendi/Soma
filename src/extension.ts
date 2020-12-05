@@ -12,7 +12,7 @@ function createStatusBarItem(context: vscode.ExtensionContext, config: StatusBar
 
 	context.subscriptions.push(statusBarItem);
 
-	statusBarItem.show()
+	statusBarItem.show();
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 		command: "soma.somesha",
 		text: "Soma",
 		tooltip: "Open PDF files"
-	}
+	};
 
 	createStatusBarItem(context, pdfQuickOpenItem);
 

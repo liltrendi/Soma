@@ -21,3 +21,7 @@ export interface StatusBarConfigs {
     text: string;
     tooltip?: string;
 }
+
+export interface OpenedPdfFile {
+    path: string;
+}

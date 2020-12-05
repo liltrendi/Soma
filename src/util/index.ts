@@ -1,5 +1,19 @@
 import * as vscode from 'vscode';
-import { HtmlUris } from "../annotations/interfaces";
+import { HtmlUris, OpenedPdfFile } from "../annotations/interfaces";
+
+export const getWebviewPanelTitle = (file: OpenedPdfFile | undefined): string => {
+    const defaultPanelTitle: string = "Soma";
+    if(!file){
+        return defaultPanelTitle;
+    }
+    const names: Array<string> = file.path.split("/");
+    const lastNameFromPath: string | undefined = names.reverse().find((name: string) => name.toLowerCase().endsWith(".pdf"));
+    if(!lastNameFromPath){
+        return defaultPanelTitle;
+    }
+    let pdfName: string = lastNameFromPath.split(".pdf")[0];
+    return pdfName;
+};
 
 export const getNonce = (): string => {
 	let text = '';

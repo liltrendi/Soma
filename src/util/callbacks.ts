@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { MessageWebviewOnDidReceiveMessage } from '../annotations/interfaces';
+import { MessageWebviewOnDidReceiveMessage, OpenedPdfFile } from '../annotations/interfaces';
 import { SomaPanel } from '../controllers/panels';
 
 const dialogOptions: vscode.OpenDialogOptions = {
@@ -10,7 +10,7 @@ const dialogOptions: vscode.OpenDialogOptions = {
 };
 
 export const someshaCallback = (context: vscode.ExtensionContext): void => {
-    vscode.window.showOpenDialog(dialogOptions).then((result: Array<vscode.Uri> | undefined) => {
+    vscode.window.showOpenDialog(dialogOptions).then((result: Array<OpenedPdfFile> | undefined) => {
         
         if(result){
             for(let file of result){
