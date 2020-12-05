@@ -4,6 +4,11 @@
 
     var PDF_TO_LOAD = null;
 
+    function calculateZoomPercentage(scale){
+        let percentage = parseInt((parseFloat(scale) * 100) - 50);
+        return `${percentage}%`;
+    }
+
     function getCanvasContext(page, canvas, pageScale){
         let viewport = page.getViewport({scale: pageScale});
         let context = canvas.getContext("2d");
@@ -23,6 +28,7 @@
         document.querySelector("#pdfCurrentPage").innerHTML = pagesConfig.currentPage;
         document.querySelector("#pdfLoader").style.display = "none";
         document.querySelector("#pdfContents").style.display = "block";
+        document.querySelector("#zoomPercent").innerHTML = calculateZoomPercentage(pagesConfig.pageScale)
         if(pagesConfig.totalPages){
             document.querySelector("#pdfTotalPages").innerHTML = ` / ${pagesConfig.totalPages}`
         }
@@ -48,7 +54,7 @@
         let PAGE_SCALE = 1.5;
         let CURRENT_PAGE, TOTAL_PAGES;
 
-        async function showPDF(pdfUri, pageNo) {
+        async function renderPdfDocument(pdfUri, pageNo) {
             document.querySelector("#pdfLoader").style.display = "block";
 
             PDF_TO_LOAD = pdfjsLib.getDocument({data: pdfUri})
@@ -57,7 +63,11 @@
                     CURRENT_PAGE = pageNo || INITIAL_PAGE;
                     TOTAL_PAGES = pdf.numPages;
 
-                    const pagesConfig = {currentPage: CURRENT_PAGE, totalPages: TOTAL_PAGES}
+                    const pagesConfig = {
+                        currentPage: CURRENT_PAGE,
+                        totalPages: TOTAL_PAGES,
+                        pageScale: PAGE_SCALE
+                    }
                     
                     await pdf.getPage(CURRENT_PAGE).then(async function(page) {
                         const renderContext = getCanvasContext(page, CANVAS, PAGE_SCALE);
@@ -70,36 +80,33 @@
         }
 
         function goToNextPage(){
-            if(CURRENT_PAGE != TOTAL_PAGES) showPDF(pdfFromBase64, ++CURRENT_PAGE);
+            if(CURRENT_PAGE != TOTAL_PAGES) renderPdfDocument(pdfFromBase64, ++CURRENT_PAGE);
         }
 
         function returnToPreviousPage(){
-            if(CURRENT_PAGE != 1) showPDF(pdfFromBase64, --CURRENT_PAGE);
+            if(CURRENT_PAGE != 1) renderPdfDocument(pdfFromBase64, --CURRENT_PAGE);
         }
 
         function zoomIn(){
             PAGE_SCALE = PAGE_SCALE + 0.25;
-            showPDF(pdfFromBase64)
+            renderPdfDocument(pdfFromBase64)
         }
 
         function zoomOut(){
+            console.log("PAge scale", PAGE_SCALE)
             if (PAGE_SCALE <= 0.25) {
                 return;
             }
             PAGE_SCALE = PAGE_SCALE - 0.25;
-            showPDF(pdfFromBase64)
+            renderPdfDocument(pdfFromBase64)
         }
 
-        showPDF(pdfFromBase64)
+        renderPdfDocument(pdfFromBase64)
 
         document.querySelector("#previousBtn").addEventListener("click", returnToPreviousPage);
-
         document.querySelector("#nextBtn").addEventListener("click", goToNextPage);
-
         document.querySelector("#zoomInBtn").addEventListener("click", zoomIn);
-
         document.querySelector("#zoomOutBtn").addEventListener("click", zoomOut)
-
         document.onkeydown = function(e){
             e = e || window.event;
             

@@ -30,6 +30,15 @@ body {
 	float: left;
 }
 
+#pdfZoomBtns {
+	display: flex;
+	align-items: center;
+}
+
+#zoomPercent {
+	padding-top: 20px;
+}
+
 #pageCountDiv {
 	float: right;
 }

@@ -49,7 +49,9 @@ export const getHtmlDocument = (webview: vscode.Webview, config: HtmlUris, pdfAs
                                     </div>
                                     <div id="pdfZoomBtns">
                                         <button class="btn btn-sm btn-primary mr-1" id="zoomInBtn">+</button>
-                                        <button class="btn btn-sm btn-primary" id="zoomOutBtn">-</button>
+                                        <p id="zoomPercent" class="text-warning">
+                                        </p>
+                                        <button class="btn btn-sm btn-primary ml-1" id="zoomOutBtn">-</button>
                                     </div>
                                     <div id="pageCountDiv" class="text-primary text-small">
                                         Page <div id="pdfCurrentPage"></div>
