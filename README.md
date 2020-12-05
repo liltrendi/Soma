@@ -6,7 +6,7 @@ Soma is a simple PDF viewer extension for Visual Studio Code, that allows you to
 
 Open multiple pdfs by interacting with the command panel and typing `Somesha`.
 
-![Soma Demo](assets/demo.gif)
+![Soma Demo](https://github.com/liltrendi/Soma/blob/main/assets/demo.gif?raw=true)
 
 > This was created as a quick easy means to open multiple pdfs, and by no means replaces extensions like vscode-pdf.
 
@@ -16,9 +16,17 @@ Open VSCode and type `Ctrl+P`, then type `ext install brian-njogu.soma`. Alterna
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.1
 
 Initial release.
+
+### 0.0.2
+
+Added extension to status bar.
+
+### 0.0.3
+
+Updates to readme.
 
 ## LICENSE
 
