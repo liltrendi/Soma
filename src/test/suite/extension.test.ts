@@ -14,4 +14,16 @@ suite('Extension Test Suite', () => {
         return actualExtension?.activate()
             .then((_) => assert.ok(true));
     });
+
+    test('Extension should register all extension known commands', async function () {
+        return vscode.commands.getCommands(true).then((commands: Array<string>) => {
+            const COMMANDS: Array<string> = [
+                'soma.somesha'
+            ];
+            const foundSomaCommands: Array<string> = commands.filter((value: string) => {
+                return COMMANDS.indexOf(value) >= 0 || value.startsWith('soma.somesha');
+            });
+            assert.equal(foundSomaCommands.length, COMMANDS.length);
+        });
+    });
 });
