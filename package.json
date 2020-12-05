@@ -52,5 +52,15 @@
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12"
 	},
-	"dependencies": {}
+	"dependencies": {},
+	"icon": "assets/icon.png",
+	"bugs": {
+		"url": "https://github.com/liltrendi/Soma/issues",
+		"email": "briancanspit@gmail.com"
+	},
+	  "repository": {
+		"type": "git",
+		"url": "https://github.com/liltrendi/Soma.git"
+	},
+	"homepage": "https://liltrendi.github.io/Soma/"
 }
