@@ -15,3 +15,9 @@ export interface MessageWebviewOnDidReceiveMessage {
     command: string;
     text: string;
 }
+
+export interface StatusBarConfigs {
+    command: string;
+    text: string;
+    tooltip?: string;
+}

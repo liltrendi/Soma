@@ -1,15 +1,29 @@
 import * as vscode from 'vscode';
+import { StatusBarConfigs } from './annotations/interfaces';
 import { someshaCallback } from './util/callbacks';
 import { exclusiveCommands } from './util/commands';
 
+function createStatusBarItem(context: vscode.ExtensionContext, config: StatusBarConfigs){
+	let statusBarItem: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1000);
+
+	statusBarItem.command = config.command;
+	statusBarItem.tooltip = config.tooltip;
+	statusBarItem.text = config.text;
+
+	context.subscriptions.push(statusBarItem);
+
+	statusBarItem.show()
+}
+
 export function activate(context: vscode.ExtensionContext) {
-	let pdfQuickOpenStatusBarItem: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1000);;
 
-	pdfQuickOpenStatusBarItem.command = "soma.somesha";
-	pdfQuickOpenStatusBarItem.tooltip = "Open PDF files";
-	pdfQuickOpenStatusBarItem.text = "Soma";
+	const pdfQuickOpenItem: StatusBarConfigs = {
+		command: "soma.somesha",
+		text: "Soma",
+		tooltip: "Open PDF files"
+	}
 
-	context.subscriptions.push(pdfQuickOpenStatusBarItem);
+	createStatusBarItem(context, pdfQuickOpenItem);
 
 	for(let key of Object.keys(exclusiveCommands)){
 		
@@ -27,8 +41,6 @@ export function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(disposable);
 
 	}
-
-	pdfQuickOpenStatusBarItem.show()
 
 }
 
