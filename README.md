@@ -8,6 +8,8 @@ Open multiple pdfs on the command panel by typing `Somesha`.
 
 ![Soma Demo](https://github.com/liltrendi/Soma/blob/main/assets/demo.gif?raw=true)
 
+Navigate through pages using the Arrow keys (`Left` for previous pages, `Right` for next pages).
+
 > This was created as a quick easy means to open multiple pdfs, and by no means replaces extensions like vscode-pdf.
 
 ## Install
@@ -35,6 +37,10 @@ Added extension to status bar.
 ### 0.0.3
 
 Updates to readme.
+
+### 0.0.4
+
+Panel titles now show the opened document's name.
 
 ## LICENSE
 
