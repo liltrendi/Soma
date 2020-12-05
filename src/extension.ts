@@ -15,6 +15,22 @@ function createStatusBarItem(context: vscode.ExtensionContext, config: StatusBar
 	statusBarItem.show();
 }
 
+function registerExtensionCommands(context: vscode.ExtensionContext){
+	for(let key of Object.keys(exclusiveCommands)){
+		let callback = (): void => {};
+		let command: string = exclusiveCommands[key];
+		
+		switch(command){
+			case "soma.somesha":
+				callback = (): void => someshaCallback(context);
+				break;
+		}
+
+		let disposable: vscode.Disposable = vscode.commands.registerCommand(command, callback);
+		context.subscriptions.push(disposable);
+	}
+}
+
 export function activate(context: vscode.ExtensionContext) {
 
 	const pdfQuickOpenItem: StatusBarConfigs = {
@@ -24,24 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 	};
 
 	createStatusBarItem(context, pdfQuickOpenItem);
-
-	for(let key of Object.keys(exclusiveCommands)){
-		
-		let callback = (): void => {};
-		let command: string = exclusiveCommands[key];
-		
-		switch(command){
-			case "soma.somesha":
-				callback = () => someshaCallback(context);
-				break;
-		}
-
-		let disposable: vscode.Disposable = vscode.commands.registerCommand(command, callback);
-
-		context.subscriptions.push(disposable);
-
-	}
-
+	registerExtensionCommands(context);
 }
 
 export function deactivate() {}
