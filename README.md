@@ -14,6 +14,12 @@ Open multiple pdfs on the command panel by typing `Somesha`.
 
 Open VSCode and type `Cmd+P` (or `Ctrl+P` on Windows), then type `ext install brian-njogu.soma`. Alternatively, you can install it from the Extensions Marketplace by searching for `Soma`.
 
+## Donate
+
+<span class="badge-patreon">
+<a href="https://patreon.com/liltrendi" title="Donate to this project using Patreon"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" /></a>
+</span>
+
 ## Release Notes
 
 ### 0.0.1
