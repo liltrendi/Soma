@@ -6,14 +6,16 @@ const dialogOptions: vscode.OpenDialogOptions = {
     filters: { "pdf": ["pdf"] },
     title: "Soma - View PDF",
     canSelectFolders: false,
-    canSelectMany: false,
+    canSelectMany: true,
 };
 
 export const someshaCallback = (context: vscode.ExtensionContext): void => {
     vscode.window.showOpenDialog(dialogOptions).then((result) => {
 
         if(result){
-            SomaPanel.createOrReveal(context, result);
+            for(let file of result){
+                SomaPanel.createOrReveal(context, file);
+            }
             return;
         }
 

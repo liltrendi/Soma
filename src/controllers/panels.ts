@@ -15,14 +15,14 @@ export class SomaPanel {
     private readonly _localResourcesPath: string = "injectibles";
     private readonly _webviewPanel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
-    private _localFiles: vscode.Uri[] | undefined;
+    private _localFile: vscode.Uri | undefined;
     private _disposables: vscode.Disposable[] = [];
 
-    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, files: vscode.Uri[] | undefined){
+    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, file: vscode.Uri | undefined){
         this._webviewPanel = panel;
         this.panelContext = context;
         this._extensionUri = context.extensionUri;
-        this._localFiles = files;
+        this._localFile = file;
 
         this._loadWebviewHtml();
 
@@ -31,7 +31,7 @@ export class SomaPanel {
         this._webviewPanel.webview.onDidReceiveMessage(webviewOnDidRecieveMessage, null, this._disposables);
     }
 
-    public static createOrReveal(context: vscode.ExtensionContext, files: vscode.Uri[] | undefined) {
+    public static createOrReveal(context: vscode.ExtensionContext, file: vscode.Uri | undefined) {
 
         const column: vscode.ViewColumn | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
@@ -51,7 +51,7 @@ export class SomaPanel {
             }
         );
 
-        SomaPanel.currentPanel = new SomaPanel(panel, context, files);
+        SomaPanel.currentPanel = new SomaPanel(panel, context, file);
     }
 
     public getPreparedHtml(webview: vscode.Webview){
@@ -77,7 +77,7 @@ export class SomaPanel {
         const bootstrapStylesPath = vscode.Uri.joinPath(this._extensionUri, this._localResourcesPath, "lib", "bootstrap", "bootstrap.min.css");
         const bootstrapStylesUri = webview.asWebviewUri(bootstrapStylesPath);
 
-        const pdfFilePath = this._localFiles ? this._localFiles[0].path : "";
+        const pdfFilePath = this._localFile ? this._localFile.path : "";
         const pdfAsBase64: string = fs.readFileSync(vscode.Uri.file(path.join(pdfFilePath)).path, {encoding: 'base64'});
 
         const uris: HtmlUris = {
