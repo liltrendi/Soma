@@ -2,7 +2,7 @@
 	"name": "soma",
 	"displayName": "Soma",
 	"description": "A vscode extension to display PDFs in webviews, for users that like to read while writing code. Written in Node.js & Typescript.",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"publisher": "brian-njogu",
 	"engines": {
 		"vscode": "^1.51.0"
