@@ -10,8 +10,8 @@ const dialogOptions: vscode.OpenDialogOptions = {
 };
 
 export const someshaCallback = (context: vscode.ExtensionContext): void => {
-    vscode.window.showOpenDialog(dialogOptions).then((result) => {
-
+    vscode.window.showOpenDialog(dialogOptions).then((result: Array<vscode.Uri> | undefined) => {
+        
         if(result){
             for(let file of result){
                 SomaPanel.createOrReveal(context, file);
