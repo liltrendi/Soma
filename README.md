@@ -2,6 +2,8 @@
 
 Soma is a simple PDF viewer extension for Visual Studio Code. It allows you to quickly open and view .pdf documents within your editor.
 
+Install it here: ![Soma](https://marketplace.visualstudio.com/items?itemName=brian-njogu.soma)
+
 ## Features
 
 Open multiple pdfs via the command panel by typing `Somesha`.
